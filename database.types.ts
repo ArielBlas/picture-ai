@@ -54,6 +54,55 @@ export type Database = {
         }
         Relationships: []
       }
+      models: {
+        Row: {
+          created_at: string
+          gender: Database["public"]["Enums"]["gender"] | null
+          id: number
+          model_id: string | null
+          model_name: string | null
+          training_id: string | null
+          training_status: Database["public"]["Enums"]["training_status"] | null
+          training_steps: number | null
+          training_time: string | null
+          trigger_word: string | null
+          user_id: string | null
+          version: string | null
+        }
+        Insert: {
+          created_at?: string
+          gender?: Database["public"]["Enums"]["gender"] | null
+          id?: never
+          model_id?: string | null
+          model_name?: string | null
+          training_id?: string | null
+          training_status?:
+            | Database["public"]["Enums"]["training_status"]
+            | null
+          training_steps?: number | null
+          training_time?: string | null
+          trigger_word?: string | null
+          user_id?: string | null
+          version?: string | null
+        }
+        Update: {
+          created_at?: string
+          gender?: Database["public"]["Enums"]["gender"] | null
+          id?: never
+          model_id?: string | null
+          model_name?: string | null
+          training_id?: string | null
+          training_status?:
+            | Database["public"]["Enums"]["training_status"]
+            | null
+          training_steps?: number | null
+          training_time?: string | null
+          trigger_word?: string | null
+          user_id?: string | null
+          version?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       orioledb_index: {
@@ -194,9 +243,9 @@ export type Database = {
       }
       orioledb_sys_tree_structure: {
         Args: {
-          depth?: number
           num: number
           options?: string
+          depth?: number
         }
         Returns: string
       }
@@ -321,7 +370,13 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      gender: "man" | "women"
+      training_status:
+        | "starting"
+        | "processing"
+        | "succeeded"
+        | "failed"
+        | "canceled"
     }
     CompositeTypes: {
       [_ in never]: never
