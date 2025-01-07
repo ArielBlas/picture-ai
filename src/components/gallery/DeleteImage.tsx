@@ -20,7 +20,7 @@ interface DeleteImageProps {
   imageId: string;
   onDelete?: () => void;
   className?: string;
-  imageName: string;
+  imageName: string | undefined;
 }
 
 const DeleteImage = ({

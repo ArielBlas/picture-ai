@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import useGeneratedStore from "@/app/store/useGeneratedStore";
+import { Tables } from "@datatypes.types";
 
 export const ImageGenerationformSchema = z.object({
   model: z.string({
@@ -74,12 +75,17 @@ export const ImageGenerationformSchema = z.object({
     }),
 });
 
-const Configurations = () => {
+interface ConfigurationsProps {
+  userModels: Tables<"models">[];
+  model_id?: string | null;
+}
+
+const Configurations = ({ userModels, model_id }: ConfigurationsProps) => {
   const generateImage = useGeneratedStore((state) => state.generateImage);
   const form = useForm<z.infer<typeof ImageGenerationformSchema>>({
     resolver: zodResolver(ImageGenerationformSchema),
     defaultValues: {
-      model: "black-forest-labs/flux-dev",
+      model: model_id ? `arielblas/${model_id}` : "black-forest-labs/flux-dev",
       prompt: "",
       guidance: 3.5,
       num_outputs: 1,
@@ -111,7 +117,24 @@ const Configurations = () => {
   }, [form]);
 
   async function onSubmit(values: z.infer<typeof ImageGenerationformSchema>) {
-    await generateImage(values);
+    const newValues = {
+      ...values,
+      prompt: values.model.startsWith("arielblas/")
+        ? (() => {
+            const modelId = values.model
+              .replace("arielblas/", "")
+              .split(":")[0];
+            const selectedModel = userModels.find(
+              (model) => model.model_id === modelId
+            );
+
+            return `photo of a ${selectedModel?.trigger_word || "ohwx"} ${
+              selectedModel?.gender
+            }, ${values.prompt}`;
+          })()
+        : values.prompt,
+    };
+    await generateImage(newValues);
   }
 
   return (
@@ -153,6 +176,17 @@ const Configurations = () => {
                       <SelectItem value="black-forest-labs/flux-schnell">
                         Flux Schnell
                       </SelectItem>
+                      {userModels?.map(
+                        (model) =>
+                          model.training_status === "succeeded" && (
+                            <SelectItem
+                              key={model.model_id}
+                              value={`arielblas/${model.model_id}:${model.version}`}
+                            >
+                              {model.model_name}
+                            </SelectItem>
+                          )
+                      )}
                     </SelectContent>
                   </Select>
 

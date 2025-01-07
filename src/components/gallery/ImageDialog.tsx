@@ -62,7 +62,7 @@ const ImageDialog = ({ image, onClose }: ImageDialogProps) => {
                   imageId={image.id.toString()}
                   onDelete={onClose}
                   className="w-fit"
-                  imageName={image.image_name}
+                  imageName={image.image_name || undefined}
                 />
               </div>
             </div>
@@ -75,17 +75,19 @@ const ImageDialog = ({ image, onClose }: ImageDialogProps) => {
             <div className="flex flex-wrap gap-3 mb-32">
               <Badge
                 variant={"secondary"}
-                className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+                className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal max-w-["
               >
                 <span className="text-primary uppercase mr-2 font-semibold">
                   Model ID:
                 </span>
-                {image.model}
+                {image.model?.startsWith("arielblas/")
+                  ? image.model.split("/")[1].split(":")[0]
+                  : image.model}
               </Badge>
 
               <Badge
                 variant={"secondary"}
-                className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal"
+                className="rounded-full border border-primary/30 px-4 py-2 text-sm font-normal80%]"
               >
                 <span className="text-primary uppercase mr-2 font-semibold">
                   Aspect Ratio:
