@@ -4,7 +4,17 @@ import AuthImg from "@/public/Abstract Curves and Colors.jpeg";
 import Logo from "@/components/ui/Logo";
 import AuthForm from "@/components/authentication/AuthForm";
 
-const AuthenticationPage = () => {
+interface SearchParams {
+  state?: string;
+}
+
+const AuthenticationPage = ({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) => {
+  const { state } = searchParams;
+
   return (
     <main className="h-screen grid grid-cols-2 relative">
       <div className="relative w-full flex flex-col bg-muted p-10 text-primary-foreground">
@@ -31,7 +41,7 @@ const AuthenticationPage = () => {
       </div>
       <div className="relative flex flex-col items-center justify-center p-8 h-full">
         <div className="max-w-xl w-[350px] mx-auto">
-          <AuthForm />
+          <AuthForm state={state ?? "login"} />
         </div>
       </div>
     </main>
