@@ -20,13 +20,13 @@ function AuthForm({ state }: { state: string }) {
             ? "Login"
             : "Sign Up"}
         </h1>
-        <h1 className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground">
           {mode === "reset"
             ? "Enter your email below to reset your password"
             : mode === "login"
             ? "Enter your email below to login to your account"
             : "Enter your information below to create an account"}
-        </h1>
+        </p>
       </div>
       {mode === "login" && (
         <>

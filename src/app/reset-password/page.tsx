@@ -2,19 +2,9 @@ import Image from "next/image";
 import React from "react";
 import AuthImg from "@/public/Abstract Curves and Colors.jpeg";
 import Logo from "@/components/ui/Logo";
-import AuthForm from "@/components/authentication/AuthForm";
+import ChangePasswordForm from "@/components/account/ChangePasswordForm";
 
-interface SearchParams {
-  state?: string;
-}
-
-const AuthenticationPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) => {
-  const { state } = await searchParams;
-
+const AuthenticationPage = async () => {
   return (
     <main className="h-screen grid grid-cols-2 relative">
       <div className="relative w-full flex flex-col bg-muted p-10 text-primary-foreground">
@@ -41,7 +31,7 @@ const AuthenticationPage = async ({
       </div>
       <div className="relative flex flex-col items-center justify-center p-8 h-full">
         <div className="max-w-xl w-[350px] mx-auto">
-          <AuthForm state={state ?? "login"} />
+          <ChangePasswordForm />
         </div>
       </div>
     </main>
